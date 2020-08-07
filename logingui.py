@@ -14,16 +14,17 @@ class LoginWindow(Tk):
         self.title("登录界面")
         self.geometry("620x445+320+180")    # 加号表示窗体打开时出现的坐标位置，分别代表x坐标和y坐标
         self.resizable(0,0) # 窗体大小不允许变，两个参数分别代表x轴和y轴
-        self.iconbitmap("."+os.sep+"img"+os.sep+"student.ico")
+        self.iconbitmap("."+os.sep+"img"+os.sep+"student.icns")
         # self["bg"] = "royalblue"
         # 加载窗体
         self.setup_UI()
         # 定义变量（定义全局变量，后面的函数都能访问到）
-        self.file_path = "/Users/yushengtan/Desktop/Demo/Studentmgr/User.txt"   # 文件路劲
+        self.file_path = "."+os.sep+"Studentmgr"+os.sep+"User.txt"   # 文件路劲
         self.user_list = [] # 存储用户信息
         self.var_password_error_times = 0
         self.user = ""  # 当前的用户
         self.password = ""  # 当前用户的密码
+        self.current_user_list = [] # 当前用户的用户名、密码、状态信息
 
         # 自动执行文件中账号的加载
         self.load_file_info()
@@ -108,6 +109,8 @@ class LoginWindow(Tk):
                 else:
                     # 如果在三次之内输入正确了，把错误次数归零
                     self.var_password_error_times = 0
+                    # 把用户名和密码写入list
+                    self.current_user_list = self.user_list[index]
                     # 加载主窗体
                     self.load_main()
                     # showinfo("系统消息", "登录成功！")
@@ -131,7 +134,7 @@ class LoginWindow(Tk):
         # 关闭当前窗体
         self.destroy()
         # 加载新窗体
-        main_window = maingui.MainWindow(self.user,self.get_now_time())
+        main_window = maingui.MainWindow(self.current_user_list,self.get_now_time())
 
     def get_now_time(self):
         today = datetime.today()

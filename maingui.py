@@ -7,7 +7,7 @@ import changepasswordgui
 
 class MainWindow(Tk):
 
-    def __init__(self,current_user,current_time):
+    def __init__(self,current_user_list,current_time):
         super().__init__()
         self.title("主窗体")
         self.geometry("900x640+180+80")
@@ -15,14 +15,14 @@ class MainWindow(Tk):
         self["bg"]="skyblue"
 
         # 全局变量
-        self.login_user = current_user
         self.login_time = current_time
         self.current_student_list = []
         self.query_result_list = []
         self.action_flag = 0
+        self.current_login_list = current_user_list
         # 存储学生信息
         self.all_student_list = []
-        self.file_path = "/Users/yushengtan/Desktop/Demo/Studentmgr/Student.txt"
+        self.file_path ="."+os.sep+"Studentmgr"+os.sep+"Student.txt"
 
         # 加载gui
         self.setup_UI()
@@ -49,7 +49,7 @@ class MainWindow(Tk):
         self.Lable_image.pack()
 
         # 加载当前用户和时间
-        self.Label_login_user = Label(self,text = "当前用户:"+str(self.login_user).title()
+        self.Label_login_user = Label(self,text = "当前用户:"+str(self.current_login_list[0]).title()
                                       +"\n登录时间:"+self.login_time)
         self.Label_login_user.place(x = 650,y = 40)
 
@@ -275,7 +275,7 @@ class MainWindow(Tk):
             self.destroy()
 
     def load_change_password(self):
-        this_change_password = changepasswordgui.ChangePasswordWindow()
+        this_change_password = changepasswordgui.ChangePasswordWindow(self.current_login_list)
 
 
 
